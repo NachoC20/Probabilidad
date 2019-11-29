@@ -37,8 +37,7 @@ uniforme <-function(n, a1, b1){
   }
   return(b)
 }
-un = uniforme(100, 1, 5); un
-
+un = uniforme(100, 10, 20); un
 
 ##Bernoulli
 bernoulli <-function(n, p){
@@ -52,7 +51,7 @@ bernoulli <-function(n, p){
   }
   return(b)
 }
-b = bernoulli(1000, .1); b
+b = bernoulli(100, .9); b
 
 ##Binomial
 binomial <- function(m, n, p){
@@ -75,8 +74,8 @@ binomial <- function(m, n, p){
   return(b)
 }
 
-x = binomial(1000, 10, .3); x
- 
+x = binomial(100, 10000, .3); x
+
 ##Uniforme
 uniforme <- function(m, r){
   u = funcionUnif(m)
@@ -145,4 +144,6 @@ binNeg <- function(n, r, p){
 }
 
 bn = binNeg(500, 100, .3); bn
+
+##Otra cosa
 
