@@ -1,4 +1,3 @@
-
 funcionUnif <- function(n){
   a = 7^5
   m = 2^(31)-1
@@ -18,11 +17,11 @@ funcionUnif <- function(n){
 prueba = funcionUnif(10); prueba
 
 ##Exponencial
-exponencial <- function(n, l){
+exponencial <- function(n, lamb){
   u = funcionUnif(n)
   b = c()
   for(i in 1:n){
-    yi = (log(u[i]))/(-l)
+    yi = (log(u[i]))/(-lamb)
     b = c(b, yi)
   }
   return(b)
@@ -30,8 +29,8 @@ exponencial <- function(n, l){
 #'Ejemplo:
 #'Suponga que el tiempo en minutos que un usuario
 #'cualquiera permanece revisando su correo electronico
-#'sigue una distribución exponencial de parametro
-#'lambda=1/5. Eso significa que el tiempo de conexión
+#'sigue una distribuciÃ³n exponencial de parametro
+#'lambda=1/5. Eso significa que el tiempo de conexiÃ³n
 #'promedio al servidor de correos es de (1/lambda)=5 min.
 #'Calcule la probabilidad de que un usuario cualquiera
 #'permanezca conectado al servidorde correo al 
@@ -41,11 +40,11 @@ e = exponencial(10, 0.2); e
 
 
 ##Uniforme continua
-uniforme <-function(n, a1, b1){
+uniforme <-function(n, inicioInt, finalInt){ 
   u = funcionUnif(n)
   b = c()
   for (i in 1:n) {
-    j = u[i]*(b1-a1)+a1
+    j = u[i]*(finalInt-inicioInt)+inicioInt
     b = c(b, j)
   }
   return(b)
@@ -59,11 +58,11 @@ un = uniforme(12, 0, 60); un
 ## PROBABILIDAD=0.416
 
 ##Bernoulli
-bernoulli <-function(n, p){
+bernoulli <-function(n, prob){
   u = funcionUnif(n)
   b = c()
   for(i in 1:n){
-    if(u[i] <= p){
+    if(u[i] <= prob){
       b = c(b,1)}
     else{
       b = c(b,0)}
@@ -74,6 +73,7 @@ b = bernoulli(100, .5); b
 
 ##Binomial
 binomial <- function(m, n, p){
+
   u = funcionUnif(m)
   b = c()
   for(j in 1:m){
@@ -82,10 +82,10 @@ binomial <- function(m, n, p){
     pr = (1-p)^(n)
     dis = pr
     i = 0
-    while (!(unif < dis)) {
+    while (dis <= unif) {
       prob = c*((n-i)/(i+1))*pr
       pr = prob
-      dis = dis + pr
+      dis = dis + prob
       i = i + 1
     }
     b = c(b,i)
@@ -96,7 +96,7 @@ binomial <- function(m, n, p){
 #'Un examen tiene 10 preguntas y cada una tiene 3 opciones 
 #'como respuesta, siendo solamente una de ellas la correcta.
 #'Si un estudiante contesta al azar, cual es la probabilidad 
-#'tenga más de 5 preguntas correctas. En 7 intentos.
+#'tenga mÃ¡s de 5 preguntas correctas. En 7 intentos.
 x = binomial(7, 10, 0.33); x
 ##PROBABILIDAD=0.2334
 
@@ -116,24 +116,24 @@ uniforme <- function(m, r){
 }
 #'Ejemplo
 #'Sea X una variable aleatoria con distribucion uniforme
-#'en el conjunto {1,2,3,4,5}. ¿Cual es la probabilidad de
+#'en el conjunto {1,2,3,4,5}. Â¿Cual es la probabilidad de
 #'que el area del rectangulo de lados X y X-6 sea mayor o 
 #'igual a 8? En 10 experimentos.
 n = uniforme(10, 5); n
 ##PROBABIIDAD=0.6
 
 ##Poisson
-pois <- function(m, l){
+pois <- function(m, lamb){
   u = funcionUnif(m)
   b = c()
   for(j in 1:m){
     unif = u[j]
     i = 0
-    p = exp(-l)
+    p = exp(-lamb)
     dis = p
-    while(!(unif < dis)){
+    while(dis <= unif){
       prob = p
-      p = l*p/(i+1)
+      p = lamb*p/(i+1)
       dis = dis + p
       i = i + 1
     }
@@ -179,7 +179,7 @@ binNeg <- function(n, r, p){
 }
 #'Ejemplo
 #'Se lanzan repetidas veces una moneda equilibrada y los
-#'dos resultados son cara o cruz ¿Cual es la proabilidad de 
+#'dos resultados son cara o cruz Â¿Cual es la proabilidad de 
 #'obtener la tercera cruz en el quinto lanzamiento?.
 #'Se hacen 10 experimentos
 bn = binNeg(10, 3, .5); bn
