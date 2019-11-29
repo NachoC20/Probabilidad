@@ -1,6 +1,6 @@
 x0 <- 2
 n <- 10000
-l <- 10
+lamb <- 10
 a = 7^5
 m = 2^(31)-1
 funcionUnif <- function(n){
@@ -19,11 +19,11 @@ funcionUnif <- function(n){
   return(u)
 }
 ##Exponencial
-exponencial <- function(n, l){
+exponencial <- function(n, lamb){
   u = funcionUnif(n)
   b = c()
   for(i in 1:n){
-    yi = (log(u[i]))/(-l)
+    yi = (log(u[i]))/(-lamb)
     b = c(b, yi)
   }
   return(b)
@@ -31,11 +31,11 @@ exponencial <- function(n, l){
 e = exponencial(1000, 10); e
 
 ##Uniforme continua
-uniforme <-function(n, a1, b1){
+uniforme <-function(n, inicioInt, finalInt){ 
   u = funcionUnif(n)
   b = c()
   for (i in 1:n) {
-    j = u[i]*(b1-a1)+a1
+    j = u[i]*(finalInt-inicioInt)+inicioInt
     b = c(b, j)
   }
   return(b)
@@ -44,11 +44,11 @@ un = uniforme(1000, 1, 5); un
 
 
 ##Bernoulli
-bernoulli <-function(n, p){
+bernoulli <-function(n, prob){
   u = funcionUnif(n)
   b = c()
   for(i in 1:n){
-    if(u[i] <= p){
+    if(u[i] <= prob){
       b = c(b,1)}
     else{
       b = c(b,0)}
@@ -59,22 +59,22 @@ b = bernoulli(1000, .7); b
 
 ##Binomial
 binomial <- function(m, n, p){
+
   u = funcionUnif(m)
   b = c()
   for(j in 1:m){
     unif = u[j]
     c = p/(1-p)
-    pr = (1-p)^n
+    pr = (1-p)^(n)
     dis = pr
     i = 0
-    bool = TRUE
-    while (!(unif < dis)) {
+    while (dis <= unif) {
       prob = c*((n-i)/(i+1))*pr
       pr = prob
-      dis = dis + pr
+      dis = dis + prob
       i = i + 1
     }
-    b = c(b,i+1)
+    b = c(b,i)
   }
   return(b)
 }
@@ -98,17 +98,17 @@ uniforme <- function(m, r){
 n = uniforme(1000, 10); n
 
 ##Poisson
-pois <- function(m, l){
+pois <- function(m, lamb){
   u = funcionUnif(m)
   b = c()
   for(j in 1:m){
     unif = u[j]
     i = 0
-    p = exp(-l)
+    p = exp(-lamb)
     dis = p
-    while(!(unif < dis)){
+    while(dis <= unif){
       prob = p
-      p = l*p/(i+1)
+      p = lamb*p/(i+1)
       dis = dis + p
       i = i + 1
     }
