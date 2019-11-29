@@ -1,23 +1,19 @@
-x0 <- 2
-n <- 10000
-l <- 10
-a = 7^5
-m = 2^(31)-1
+
 funcionUnif <- function(n){
   a = 7^5
   m = 2^(31)-1
   u = c()
-  x0 = 2
+  x0 = floor(runif(1, min = 1, max = 200))
   for(i in 1:n){
-  
     xi = (a*x0)%%m
     ui = xi/m
     u = c(u, ui)
     x0 = xi
-  
   }
   return(u)
 }
+prueba = funcionUnif(1000); prueba
+
 ##Exponencial
 exponencial <- function(n, l){
   u = funcionUnif(n)
@@ -28,7 +24,8 @@ exponencial <- function(n, l){
   }
   return(b)
 }
-e = exponencial(1000, 10); e
+e = exponencial(10, 5); e
+
 
 ##Uniforme continua
 uniforme <-function(n, a1, b1){
@@ -40,7 +37,7 @@ uniforme <-function(n, a1, b1){
   }
   return(b)
 }
-un = uniforme(1000, 1, 5); un
+un = uniforme(100, 1, 5); un
 
 
 ##Bernoulli
@@ -55,7 +52,7 @@ bernoulli <-function(n, p){
   }
   return(b)
 }
-b = bernoulli(1000, .7); b
+b = bernoulli(1000, .1); b
 
 ##Binomial
 binomial <- function(m, n, p){
@@ -64,17 +61,16 @@ binomial <- function(m, n, p){
   for(j in 1:m){
     unif = u[j]
     c = p/(1-p)
-    pr = (1-p)^n
+    pr = (1-p)^(n)
     dis = pr
     i = 0
-    bool = TRUE
     while (!(unif < dis)) {
       prob = c*((n-i)/(i+1))*pr
       pr = prob
       dis = dis + pr
       i = i + 1
     }
-    b = c(b,i+1)
+    b = c(b,i)
   }
   return(b)
 }
@@ -119,3 +115,34 @@ pois <- function(m, l){
 
 p = pois(1000, 5); p
 ##(list = ls())
+
+##Geometrica
+geo <- function(n, p){
+  u = funcionUnif(n)
+  b = c()
+  for(j in 1:n){
+    unif = u[j]
+    i = 1
+    while(!((1-(1-p)^(i-1))<= unif  && unif < (1-(1-p)^(i)))){
+      i = i + 1
+    }
+    b = c(b, i)
+  }
+  return (b)
+}
+g = geo(10000, .01); g
+
+binNeg <- function(n, r, p){
+  g = c()
+  bin = c()
+  for(i in 1:n){
+    g = c(g, geo(r, p))
+  }
+  for(j in 1:n){
+    bin = c(bin, sum(g[j]))
+  }
+  return(bin)
+}
+
+bn = binNeg(500, 100, .3); bn
+
