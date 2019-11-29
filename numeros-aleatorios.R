@@ -4,6 +4,8 @@ funcionUnif <- function(n){
   m = 2^(31)-1
   u = c()
   x0 = floor(runif(1, min = 1, max = 200))
+  xi = (a*x0)%%m
+  x0 = xi
   for(i in 1:n){
     xi = (a*x0)%%m
     ui = xi/m
@@ -13,7 +15,7 @@ funcionUnif <- function(n){
   return(u)
 }
 
-prueba = funcionUnif(1000); prueba
+prueba = funcionUnif(10); prueba
 
 ##Exponencial
 exponencial <- function(n, l){
@@ -52,9 +54,11 @@ bernoulli <-function(n, p){
   }
   return(b)
 }
-b = bernoulli(100, .9); b
+b = bernoulli(100, .5); b
 
 ##Binomial
+#Se va a lanzar un dado 20 veces y se quiere observar cuántas veces saldra un 6 en los lanzamientos. Se repetirá
+#el experimento 35
 binomial <- function(m, n, p){
   u = funcionUnif(m)
   b = c()
@@ -75,7 +79,7 @@ binomial <- function(m, n, p){
   return(b)
 }
 
-x = binomial(100, 10000, .3); x
+x = binomial(35, 20, .16666); x
 
 ##Uniforme
 uniforme <- function(m, r){
@@ -91,7 +95,7 @@ uniforme <- function(m, r){
   }
   return(b)
 }
-n = uniforme(1000, 10); n
+n = uniforme(100, 10); n
 
 ##Poisson
 pois <- function(m, l){
@@ -113,7 +117,7 @@ pois <- function(m, l){
   return(b)
 }
 
-p = pois(1000, 999); p
+p = pois(1000, 10); p
 ##(list = ls())
 
 ##Geometrica
@@ -143,7 +147,7 @@ binNeg <- function(n, r, p){
   return (bin)
 }
 
-bn = binNeg(1000, 500, .5); bn
+bn = binNeg(100, 500, .5); bn
 
 
 
