@@ -12,6 +12,7 @@ funcionUnif <- function(n){
   }
   return(u)
 }
+
 prueba = funcionUnif(1000); prueba
 
 ##Exponencial
@@ -112,7 +113,7 @@ pois <- function(m, l){
   return(b)
 }
 
-p = pois(1000, 5); p
+p = pois(1000, 999); p
 ##(list = ls())
 
 ##Geometrica
@@ -129,21 +130,20 @@ geo <- function(n, p){
   }
   return (b)
 }
-g = geo(10000, .01); g
+g = geo(500, .3); g
 
+##Binomial negativa
 binNeg <- function(n, r, p){
-  g = c()
   bin = c()
   for(i in 1:n){
-    g = c(g, geo(r, p))
+    geometrica = (geo(r,1-p)-1) ##Requiere una geometrica por errores, no por ensayos
+    suma = sum(geometrica)
+    bin = c(bin, suma)
   }
-  for(j in 1:n){
-    bin = c(bin, sum(g[j]))
-  }
-  return(bin)
+  return (bin)
 }
 
-bn = binNeg(500, 100, .3); bn
+bn = binNeg(1000, 500, .5); bn
 
-##Otra cosa
+
 
