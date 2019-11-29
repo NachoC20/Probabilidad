@@ -1,12 +1,12 @@
 
-funcionUnif <- function(n){
+funcionUnifPendeja - function(n){
   a = 7^5
   m = 2^(31)-1
   u = c()
   x0 = floor(runif(1, min = 1, max = 200))
   for(i in 1:n){
     xi = (a*x0)%%m
-    ui = xi/m
+    ui = xm
     u = c(u, ui)
     x0 = xi
   }
