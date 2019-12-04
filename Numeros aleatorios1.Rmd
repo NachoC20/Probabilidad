@@ -1,5 +1,5 @@
 ---
-title: "Numeros aleatorios"
+title: "Proyecto de simulacion"
 output: html_document
 ---
 ***PROBABILIDAD I***
@@ -113,10 +113,10 @@ binomial <- function(m, n, p, semilla){ # m=numero de variables aleatorias, n y 
 
 ***Ejemplo:***
 
-*Un examen tiene 10 preguntas y cada una tiene 3 opciones como respuesta, siendo solo una de ellas la correcta.Si un estudiante contesta al azar, la probabilidad de que tenga mas de 5 preguntas correctas es de 0.2334. ¿Cuantas veces ocurrira este evento en 7 observaciones?*
+*Un examen tiene 10 preguntas y cada una tiene 3 opciones como respuesta, siendo solo una de ellas la correcta.Si un estudiante contesta al azar, la probabilidad de que tenga 5 preguntas o mas correctas es de 0.2334. ¿Cuantas veces ocurrira este evento en 7 observaciones?*
 
 ```{r}
-x = binomial(7, 10, 0.2334, 53); x
+x = binomial(7, 10, 0.2334, 53 ); x
 ```
 
 ***4. UNIFORME DISCRETA***
@@ -140,7 +140,7 @@ uniforme <- function(muest, valores, semilla){ #muest=numero de uniformes, valor
 
 ***Ejemplo:***
 
-*Sea X una variable aleatoria con distribución uniforme en el conjunto {1,2,3,4,5}. La probabilidad de que el area del rectángulo de lados X y 6-X sea mayor o igual a 8 es de 0.6 ¿Cuantas veces ocurrira esto en 10 experimentos?*
+*Sea X una variable aleatoria con distribución uniforme en el conjunto {1,2,3,4,5}. La probabilidad de que el area del rectángulo de lados X y 6-X sea mayor estricto a 8 es de 0.6 ¿Cuantas veces ocurrira esto en 10 experimentos?*
 
 ```{r}
 
@@ -215,7 +215,7 @@ binNeg <- function(n, exi, prob, semilla){ #n=número de variables aleatorias qu
 
 ***Ejemplo:***
 
-*Se lanzan repetidas veces una moneda equilibrada y los dos resultados son cara o cruz; la proabilidad de obtener la tercera cruz en el quinto lanzamiento es de 0.1875 ¿Cuantas veces ocurrira en 10 lanzamientos?*
+*Se lanzan repetidas veces una moneda equilibrada y los dos resultados son cara o cruz; la proabilidad de obtener la tercera cruz en el quinto lanzamiento es de 0.1875 ¿Cuantas fallos ocurriran en 10 realizaciones del experimento?*
 
 ```{r}
 
