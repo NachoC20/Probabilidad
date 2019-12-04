@@ -29,15 +29,12 @@ exponencial <- function(n, lamb){
 #'Ejemplo:
 #'Suponga que el tiempo en minutos que un usuario
 #'cualquiera permanece revisando su correo electronico
-#'sigue una distribuciÃ³n exponencial de parametro
-#'lambda=1/5. Eso significa que el tiempo de conexiÃ³n
+#'sigue una distribucion exponencial de parametro
+#'lambda=1/5. Eso significa que el tiempo de conexion
 #'promedio al servidor de correos es de (1/lambda)=5 min.
-#'Calcule la probabilidad de que un usuario cualquiera
-#'permanezca conectado al servidorde correo al 
-#'menos de un minuto en diez observaciones.
+#'Dicho evento ocurre con una probabilidad igual a 0.181.
+#'¿Cuantas veces ocurrira en 10 observaciones? 
 e = exponencial(10, 0.2); e
-##PROBABILIDAD=0.181
-
 
 ##Uniforme continua
 uniforme <-function(n, inicioInt, finalInt){ 
@@ -51,11 +48,11 @@ uniforme <-function(n, inicioInt, finalInt){
 }
 #'Ejemplo:
 #'Un reloj de manecillas se detuvo en punto que no 
-#'sabemos. Determine la probabilidad de que se haya 
-#'detenido en los primeros 25 minutos, luego de senialar
-#'la hora en punto.Se realizan 12 observaciones.
+#'sabemos. La probabilidad de que se haya 
+#'detenido en los primeros 25 minutos luego de senialar
+#'la hora en punto es de 0.416. 
+#'¿Cuantas veces se detendra en este intervalo en 12 observaciones?
 un = uniforme(12, 0, 60); un
-## PROBABILIDAD=0.416
 
 ##Bernoulli
 bernoulli <-function(n, prob){
@@ -95,10 +92,10 @@ binomial <- function(m, n, p){
 #'Ejemplo
 #'Un examen tiene 10 preguntas y cada una tiene 3 opciones 
 #'como respuesta, siendo solamente una de ellas la correcta.
-#'Si un estudiante contesta al azar, cual es la probabilidad 
-#'tenga mÃ¡s de 5 preguntas correctas. En 7 intentos.
+#'Si un estudiante contesta al azar, la probabilidad de que
+#'tenga mas de 5 preguntas correctas es de 0.2334.
+#'¿Cuantas veces ocurrira este evento en 7 observaciones?
 x = binomial(7, 10, 0.33); x
-##PROBABILIDAD=0.2334
 
 ##Uniforme
 uniforme <- function(m, r){
@@ -116,11 +113,13 @@ uniforme <- function(m, r){
 }
 #'Ejemplo
 #'Sea X una variable aleatoria con distribucion uniforme
-#'en el conjunto {1,2,3,4,5}. Â¿Cual es la probabilidad de
-#'que el area del rectangulo de lados X y X-6 sea mayor o 
-#'igual a 8? En 10 experimentos.
+#'en el conjunto {1,2,3,4,5}. La probabilidad de
+#'que el area del rectangulo de lados X y 6-X sea mayor o 
+#'igual a 8 es de 0.6 ¿Cuantas veces ocurrira esto 
+#'en 10 experimentos? 
 n = uniforme(10, 5); n
-##PROBABIIDAD=0.6
+## Area del rectangulo
+m = n*(6-n); m
 
 ##Poisson
 pois <- function(m, lamb){
@@ -144,11 +143,12 @@ pois <- function(m, lamb){
 #'Ejemplo:
 #'En promedio se reciben 2 peticiones de acceso
 #'a una pagina web durante un minuto cualquiera.
-#'utilice el modelo Poisson para calcular la probabilidad
-#'de que en un minuto dado cualquiera se reciban mas de 
-#'dos peticiones.Se hacen 30 experimentos.
+#'Utilizando el modelo Poisson se calculo la 
+#'probabilidad de que en un minuto cualquiera dado
+#'se reciban mas de dos peticiones, es de 0.323
+#'¿cuantas veces ocurrira en 30 experimentos?
 p = pois(30, 2); p
-## PROBABILIDAD=0.323
+
 
 
 ##Geometrica
@@ -171,7 +171,8 @@ geo <- function(n, p){
 binNeg <- function(n, r, p){
   bin = c()
   for(i in 1:n){
-    geometrica = (geo(r,1-p)-1) ##Requiere una geometrica por errores, no por ensayos
+    ##Requiere una geometrica por errores, no por ensayos
+    geometrica = (geo(r,1-p)-1) 
     suma = sum(geometrica)
     bin = c(bin, suma)
   }
@@ -179,10 +180,10 @@ binNeg <- function(n, r, p){
 }
 #'Ejemplo
 #'Se lanzan repetidas veces una moneda equilibrada y los
-#'dos resultados son cara o cruz Â¿Cual es la proabilidad de 
-#'obtener la tercera cruz en el quinto lanzamiento?.
-#'Se hacen 10 experimentos
+#'dos resultados son cara o cruz; la proabilidad de 
+#'obtener la tercera cruz en el quinto lanzamiento es
+#'de 0.1875 ¿Cuantas veces ocurrira en 10 lanzamientos?
 bn = binNeg(10, 3, .5); bn
-## PROBABILIDAD=0.1875
+
 
 
