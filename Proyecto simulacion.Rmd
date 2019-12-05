@@ -1,0 +1,244 @@
+---
+title: "Proyecto de simulación"
+output: html_document
+---
+***PROBABILIDAD I***
+
+**Profesor:** 
+
+*Fernando Baltazar Larios*
+
+**Nombres:**
+
+*1. Castillo Suárez Ignacio*
+
+*2. Garcia Luna Bobadilla Uriel*
+
+*3. Muñiz Alquisiras Miranda Miroslava*
+
+*4. Reyes Rivera Carlos* 
+
+*5. Zárate Perez Juan Carlos*
+
+***Generador de numeros aleatorios uniformes***
+```{r}
+funcionUnif <- function(n, semilla){ #n variables aleatorias uniformes y semilla es el valor inicial para crear las variables aleatorias uniformes 
+  a = 7^5 #multiplicador
+  m = 2^(31)-1 #módulo
+  u = c() 
+  x0 = semilla #semilla
+  xi = (a*x0)%%m 
+  x0 = xi 
+  for(i in 1:n){
+    xi = (a*x0)%%m #se crean numeros aleatorios entre 0 y m-1
+    ui = xi/m  #numeros aleatorios uniformes entre 0 y 1
+    u = c(u, ui) #Se llena el vector con numeros aleatorios uniformes generados
+    x0 = xi # se actualiza la semilla
+    }
+  return(u)
+}
+```
+
+***1. EXPONENCIAL***
+```{r}
+exponencial <- function(n, lamb, semilla){  #n= numero de variables aleatorias,lambda es el parámetro de la exponencial y la semilla es le valor inicial para crear variables aleatorias uniformes
+  u = funcionUnif(n, semilla) # n variables aleatorias uniformes
+  b = c() #vector donde se guardan las variables exponenciales
+  for(i in 1:n){  
+    yi = (log(u[i]))/(-lamb) #inversa que distribuye exponencial evaluada en la variable aleatoria uniforme
+    b = c(b, yi) #se va a ir llenando con variables aleatorias que distribuyen exponencial
+  }
+    return(b) #regresa el vector de variables aleatorias  exponenciales 
+  
+  }
+
+
+```
+
+***Ejemplo:***
+
+*Suponga que el tiempo en minutos que un usuario cualquiera permanece revisando su correo electrónico sigue una distribución exponencial de parametro lambda = 1/5. Eso significa que el tiempo de conexión promedio al servidor de correos es de (1 / lambda) = 5 min.Si la probabilidad de que el usuario permanezca conectado al servidor del correo menos de un minutoes de 0.181.¿Cuantas veces ocurrira en 10 observaciones?*
+
+```{r}
+e = exponencial(10, 0.2, 53); e
+```
+
+
+***2. UNIFORME CONTINUA***
+```{r}
+uniforme <-function(n, inicioInt, finalInt, semilla){ #se definen los parámetros,inicioint: inicio del intervalo, finalint: fin del intervalo y la semilla es le valor inicial para crear variables aleatorias uniformes
+  u = funcionUnif(n, semilla) #se generan numeros aleatorios uniformes
+  b = c() #vector vacio de variables 
+  for (i in 1:n) {
+    j = u[i]*(finalInt-inicioInt)+inicioInt #inversa que distribuye uniforme continua
+    b = c(b, j) #El vector se llena con variables aleatorias uniformes continuas
+  }
+  return(b) #regresa en vector variables que distribuyen uniforme continua 
+}
+```
+
+***Ejemplo:***
+
+*Un reloj de manecillas se detuvo en punto que no sabemos. La probabilidad de que se haya detenido en los primeros 25 minutos luego de senialar la hora en punto es de 0.416.¿Cuantas veces se detendra en este intervalo en 12 observaciones?*
+
+```{r}
+un = uniforme(12, 0, 60, 53); un
+```
+
+***3. BINOMIAL***
+
+```{r}
+binomial <- function(m, n, p, semilla){ # m=numero de variables aleatorias, n y p parametros de la Binomial y la semilla es le valor inicial para crear variables aleatorias uniformes
+
+  u = funcionUnif(m, semilla) #se generan numeros aleatorios uniformes
+  b = c() #vector que se va a llenar con variables aleatorias binomiales
+  for(i in 1:m){
+    unif = u[i] #renombrar la entrada i 
+    c = p/(1-p) #valor auxiliar para la densidad
+    pr = (1-p)^(n) #Todos los ensayos no fueron exitos(todos fueron fracasos)
+    dis = pr #distribución de la binomial sin exitos
+    j = 0 #La variable aleatoria toma el valor cero porque no hubo exitos
+    while (dis <= unif) { #se compara la distribución con la variable aleatoria unifome
+      # de ser menor la distribución se empieza a buscar el intervalo de pertencia
+      prob = c*((n-j)/(j+1))*pr #se define una nueva probabilidad con un éxito mas que el anterior 
+      pr = prob #se renombra
+      dis = dis + prob #pues la distribución es la suma de las probabilidades anteriores
+      j = j + 1 #se aumenta el éxito
+    }
+    b = c(b,j) #se va llenando con las variables aleatorias binomiales 
+  }
+  return(b) #regresa el vector que contiene a las variables aleatorios binomiales
+}
+```
+
+***Ejemplo:***
+
+*Un examen tiene 10 preguntas y cada una tiene 3 opciones como respuesta, siendo solo una de ellas la correcta.Si un estudiante contesta al azar, la probabilidad de que tenga 5 preguntas o mas correctas es de 0.07. ¿Cuantas veces ocurrira este evento en 20 observaciones?*
+
+```{r}
+x = binomial(20, 10, 0.333, 53 ); x
+```
+
+***4. UNIFORME DISCRETA***
+
+```{r}
+uniforme <- function(muest, valores, semilla){ #muest=numero de uniformes, valores es el parámetro de la uniforme discreta y la semilla es el valor inicial para crear variables aleatorias uniformes
+  u = funcionUnif(muest, semilla) #se crean  variables aleatorias uniformes
+  b = c() #vector vacio que se llena con variables aleatorias uniformes 
+  for(i in 1:muest){ #se generan las variables aleatorias uniformes discretas
+    unif = u[i] #se renombra la entrada i
+    j = 1 #caso base, pues su soporte empieza en 1
+    while(((j-1)/valores)> unif  || unif >= (j/valores)){ #Comparamos la distribución con la uniforme 
+      #la distribución j-1 es mayor que la variable uniforme o  la uniforme sea mayor que la distribución j
+      j = j + 1 #si se cumple la condición aumenta en 1 y vuelve a hacer la comparación, si no se cumple toma el valor de j 
+    }
+    b = c(b, j) #Se van llenando con las variables aleatorias uniformes discretas
+  }
+  return(b) #regresa el vector con variables aleatorias uniformes discretas
+}
+```
+
+***Ejemplo:***
+
+*Sea X una variable aleatoria con distribución uniforme en el conjunto {1,2,3,4,5}. La probabilidad de que el area del rectángulo de lados X y 6-X sea mayor o igual a 8 es de 0.6 ¿Cuantas veces ocurrira esto en 10 experimentos?*
+
+```{r}
+
+n  = uniforme ( 10 , 5, 53); n
+muest  =  n * ( 6 - n ); muest #area el triangulo
+
+```
+***5.POISSON***
+
+```{r}
+pois <- function(muest, lamb, semilla){ #muest= número de  variables uniformes y lambda el parámetro de la Poisson y la semilla es el valor inicial para crear variables aleatorias uniformes
+  u = funcionUnif(muest, semilla) #se crean las variables aleatorias uniformes
+  b = c() #vector que se ve a llenar de variables aleatorias Poisson
+  for(i in 1:muest){
+    unif = u[i] # se renombre la entrada i
+    j = 0 # por el soporte inicia en 0
+    prob = exp(-lamb) #primer termino cuando x es o y x factorial es 1
+    dis = prob 
+    while(dis <= unif){ #si la variable uniforme es mayor que la distribución
+      prob = lamb*prob/(j+1) #se saca la probabilidad
+      dis = dis + prob #se saca la distribución, la probabilidad mas la anterior
+      j = j + 1 #si se cumple la condición entonces  j aumenta en uno y vuelve a entrar al ciclo
+    }
+    b = c(b, j) # se llena el vector con variables aleatorias Poisson
+  }
+  return(b) # regresa el vector con variables aleatorias Poisson
+}
+```
+
+***Ejemplo:***
+
+*En promedio se recibieron 2 solicitudes de acceso a una pagina web durante un minuto cualquiera. Utilizando el modelo Poisson se calculo la probabilidad de que en un minuto cualquiera dado se reciban mas de dos peticiones, es de 0.323. ¿Cuantas veces ocurrira en 30 experimentos?*
+
+```{r}
+p = pois(30, 2, 53); p
+
+```
+
+***6. BINOMIAL NEGATIVA***
+*Geométrica*
+
+```{r}
+geo <- function(n, prob, semilla){  #n= numero de variables aleatorias geométricas y prob es el parámetro de la distribución geométrica y la semilla es el valor inicial para crear variables aleatorias uniformes
+  u = funcionUnif(n, semilla) #se crean n variables aleatorias uniformes
+  b = c() #vector vacio que se va a llenar con variables aleatorias geométricas
+  for(i in 1:n){
+    unif = u[i] #se renombre la entrada i
+    j = 1 #como estamos contando número de ensayos entonces su soporte inicia en 1
+    while((1-(1-prob)^(j-1))> unif  || unif >= (1-(1-prob)^(j))){ #se compara la distribución con la variable aleatoria uniforme
+      j = j + 1 #si la condición  se cumple j aumenta en 1 y vuelve a entrar al ciclo
+    }
+    b = c(b, j) #el vector se llena con variables aleatorias geométricas
+  }
+  return (b) #regresa el vector con variables aleatorias geométricas
+}
+
+```
+
+```{r}
+
+binNeg <- function(n, exi, prob, semilla){ #n=número de variables aleatorias que distribuyen binomial negativa donde exi,prob son los parámetros y la semilla es el valor inicial para crear variables aleatorias uniformes
+  bin = c() #se crea un vector vacio para llenarlo con variables aleatorias que distribuyen binomial negativa
+  for(i in 1:n){
+    geometrica = (geo(exi,1-prob, floor(runif(1, 1, semilla)))-1) #La binomial negativa esta dada por la suma de r geométricas. Creamos un vector de geométricas con paramétros exitos y probabilidad (1-p)-1
+    #Requiere una geometrica por errores, no por ensayos
+    suma = sum(geometrica) #suma de todas las entradas del vector geométrica
+    bin = c(bin, suma) #se llena con las variables que distribuyen binomial negativa 
+  }
+  return (bin) # Regresa el vector de variables aleatorias que distribuyen binomial negativa
+}
+```
+
+***Ejemplo:***
+
+*Se lanzan repetidas veces una moneda equilibrada y los dos resultados son cara o cruz; la proabilidad de obtener la tercera cruz en el quinto lanzamiento es de 0.1875 ¿Cuantas fallos ocurriran en 10 realizaciones del experimento?*
+
+```{r}
+
+bn  = binNeg (10 , 3 ,.5, 53); bn
+```
+
+***BERNOULLI***
+```{r}
+bernoulli <-function(n, prob, semilla){ #parámetros de la distribución Bernoulli 
+  u = funcionUnif(n, semilla)  #Se generan numeros aleatorios uniformes
+  b = c() #vector vacio de varibales aleatorias bernoulli
+  for(i in 1:n){
+    if(u[i] <= prob){ 
+      b = c(b,1)} #si es menor que probabilidad  entonces la variable vale 1
+    else{
+      b = c(b,0)}#si es mayor que probabilidad entonces vale 0
+  }
+  return(b) #regresa el vector con variables aleatorias Bernoulli
+}
+```
+```{r}
+b = bernoulli(100, .5, 53); b #prueba
+```
+
+
+
