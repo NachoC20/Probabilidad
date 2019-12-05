@@ -204,7 +204,7 @@ geo <- function(n, prob, semilla){  #n= numero de variables aleatorias geométri
 binNeg <- function(n, exi, prob, semilla){ #n=número de variables aleatorias que distribuyen binomial negativa donde exi y prob son los parámetros 
   bin = c() #se crea un vector vacio para llenarlo con variables aleatorias que distribuyen binomial negativa
   for(i in 1:n){
-    geometrica = (geo(exi,1-prob, floor(runif(1, 1, 200)))-1) #La binomial negativa esta dada por la suma de r geométricas. Creamos un vector de geométricas con paramétros exitos y probabilidad (1-p)-1
+    geometrica = (geo(exi,1-prob, floor(runif(1, 1, semilla)))-1) #La binomial negativa esta dada por la suma de r geométricas. Creamos un vector de geométricas con paramétros exitos y probabilidad (1-p)-1
     #Requiere una geometrica por errores, no por ensayos
     suma = sum(geometrica) #suma de todas las entradas del vector geométrica
     bin = c(bin, suma) #se llena con las variables que distribuyen binomial negativa 
